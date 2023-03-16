@@ -10,6 +10,7 @@ import { Link } from "../componentes/Link/Link"
 import { ItemListaInline } from "../componentes/Lista/ItemListaInline"
 import { ListaInline } from "../componentes/Lista/ListaInline"
 import { Rodape } from "../componentes/Rodape/Rodape"
+import { Link as RouterLink } from 'react-router-dom'
 import { Tipografia } from "../componentes/Tipografia/Tipografia"
 
 const LayoutBase = () => {
@@ -19,10 +20,14 @@ const LayoutBase = () => {
                 <Container>
                     <Row align="center">
                         <Col>
-                            <FreelandoLogo />
+                            <RouterLink to="/">
+                                <FreelandoLogo alt="Freelando Home Page"/>
+                            </RouterLink>
                         </Col>
                         <Col style={{ textAlign: 'right' }}>
-                            <Link>Login</Link>
+                            <RouterLink to="/login">
+                                <Link>Login</Link>
+                            </RouterLink>
                         </Col>
                     </Row>
                 </Container>

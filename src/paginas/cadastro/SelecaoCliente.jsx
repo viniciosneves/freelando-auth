@@ -40,7 +40,9 @@ const SelecaoCliente = () => {
                 Já tem conta?
             </Tipografia>
             <p>
-                <Link variante="secundaria">Faça login!</Link>
+                <RouterLink to='/login'>
+                    <Link variante="secundaria">Faça login!</Link>
+                </RouterLink>
             </p>
         </div>
     </div>)
