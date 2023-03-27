@@ -7,6 +7,7 @@ import { CampoTexto } from "../../componentes/CampoTexto/CampoTexto"
 import { Card } from "../../componentes/Card/Card"
 import { Link } from "../../componentes/Link/Link"
 import { Tipografia } from "../../componentes/Tipografia/Tipografia"
+import { useSessaoUsuarioContext } from "../../contexto/SessaoUsuario"
 
 import logo from './logo.png';
 
@@ -23,6 +24,15 @@ const ImgEstilizada = styled.img`
 const Login = () => {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+
+    const { login } = useSessaoUsuarioContext();
+
+    const tentarEfetuarLogin = async (evento) => {
+        evento.preventDefault()
+        login(email, senha)
+
+    }
+
     return (<Container>
         <Row justify="center">
             <Col xxx={6} xxl={6} xl={6} lg={6} md={8} sm={12} style={{ margin: '80px 0' }}>
@@ -35,7 +45,7 @@ const Login = () => {
                             Efetuar login
                         </Tipografia>
                     </div>
-                    <FormEstilizado>
+                    <FormEstilizado onSubmit={tentarEfetuarLogin}>
                         <CampoTexto
                             titulo="E-mail"
                             valor={email}
