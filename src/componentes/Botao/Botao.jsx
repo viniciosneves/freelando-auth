@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 
 const BotaoPrimarioEstilizado = styled.button`
     background: ${props => props.theme.cores.primarias.b};
+    width: ${props => props.fluido ? '100%' : 'auto'};
     color: ${props => props.theme.cores.branco};
     border-radius: ${props => props.theme.espacamentos.s};
     padding: ${props => props.theme.espacamentos.xs} ${props => props.theme.espacamentos.s};
@@ -21,6 +22,7 @@ const BotaoPrimarioEstilizado = styled.button`
 `
 const BotaoSecundarioEstilizado = styled.button`
     background: transparent;
+    width: ${props => props.fluido ? '100%' : 'auto'};
     color: ${props => props.theme.cores.primarias.b};
     border: 2px solid ${props => props.theme.cores.primarias.b};
     border-radius: ${props => props.theme.espacamentos.s};
@@ -40,13 +42,13 @@ const BotaoSecundarioEstilizado = styled.button`
     }
 `
 
-export const Botao = ({ children, variante = 'primaria' }) => {
+export const Botao = ({ children, variante = 'primaria', fluido = false }) => {
     if (variante === 'primaria') {
-        return <BotaoPrimarioEstilizado>
+        return <BotaoPrimarioEstilizado fluido={fluido}>
             {children}
         </BotaoPrimarioEstilizado>
     }
-    return <BotaoSecundarioEstilizado>
+    return <BotaoSecundarioEstilizado fluido={fluido}>
         {children}
     </BotaoSecundarioEstilizado>
 }

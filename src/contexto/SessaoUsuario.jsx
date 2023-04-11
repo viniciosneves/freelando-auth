@@ -3,11 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { AmazenadorToken } from '../autenticacao/AmazenadorToken';
 import { http } from '../http/http';
 
+const perfilInicial = {
+    nomeCompleto: '',
+    nome: '',
+    sobrenome: '',
+    celular: '',
+    email: '',
+    cep: '',
+    pais: '',
+}
+
 const SessaoUsuarioContext = createContext({
     usuarioEstaLogado: false,
     logout: () => null,
     login: (email, senha) => null,
-    perfil: {},
+    setPerfil: (perfil) => null,
+    atualizarPerfil: () => null,
+    perfil: perfilInicial,
 });
 
 
@@ -17,9 +29,9 @@ export const useSessaoUsuarioContext = () => {
 };
 
 export const SessaoUsuarioProvider = ({ children }) => {
-    const [perfil, setPerfil] = useState({})
+    const [perfil, setPerfil] = useState(perfilInicial)
     const [usuarioEstaLogado, setUsuarioEstaLogado] = useState(
-        !!AmazenadorToken.accessToken
+        AmazenadorToken.estaLogado
     );
     const navigate = useNavigate();
 
@@ -31,8 +43,15 @@ export const SessaoUsuarioProvider = ({ children }) => {
 
     const obterPerfil = () => {
         http.get('profile').then((resposta) => {
-            setPerfil(resposta.data);
+            setPerfil(oldState => ({
+                ...oldState,
+                ...resposta.data
+            }));
         });
+    };
+
+    const atualizarPerfil = () => {
+        return http.put('profile', perfil)
     };
 
     useEffect(() => {
@@ -58,9 +77,11 @@ export const SessaoUsuarioProvider = ({ children }) => {
         logout,
         login,
         perfil,
+        setPerfil,
+        atualizarPerfil
     };
 
-    return ( 
+    return (
         <SessaoUsuarioContext.Provider value={value}>
             {children}
         </SessaoUsuarioContext.Provider>

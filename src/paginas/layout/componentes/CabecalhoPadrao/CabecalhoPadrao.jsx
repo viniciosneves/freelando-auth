@@ -9,9 +9,6 @@ import { useSessaoUsuarioContext } from "../../../../contexto/SessaoUsuario"
 
 const CabecalhoPadrao = () => {
     const { usuarioEstaLogado } = useSessaoUsuarioContext();
-    useEffect(() => {
-        console.log(usuarioEstaLogado);
-    }, [usuarioEstaLogado])
     return (
         <Cabecalho>
             <Container>

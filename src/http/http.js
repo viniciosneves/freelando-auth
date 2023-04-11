@@ -21,17 +21,24 @@ http.interceptors.request.use(function (config) {
 });
 
 const lidarComErro401 = async (error) => {
-  const originalRequest = error.config;
-  if (!originalRequest._retry) {
+  const originalRequest = error.config;  if (!originalRequest._retry) {
     originalRequest._retry = true;
 
     const refreshToken = AmazenadorToken.refreshToken;
+
+    if (!refreshToken) {
+      
+      return Promise.reject({
+        erro: 'Refresh token inexistente'
+      })
+    }
 
     await http.get('/auth/refresh', {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
     }).catch(error => {
+      AmazenadorToken.limpar()
       return Promise.reject(error)
     })
       .then(resposta => {
@@ -46,7 +53,8 @@ http.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (!routesToScape.includes(error.config.url) && error.response.status === 401) {
-      return lidarComErro401(error);
+      return lidarComErro401(error)
+        .catch(() => window.location.href = '/');
     }
     return Promise.reject(error);
   }
